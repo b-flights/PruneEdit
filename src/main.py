@@ -107,6 +107,25 @@ class appFrameInst(appFrame):
 
         self.Refresh()
 
+    def onOpenDoc(self, event):
+        global root
+        global curr_node
+        with wx.FileDialog(
+            self, "Select .txt file", wildcard="Text files (*.txt)|*.txt",
+            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST
+        ) as docOpenPrompt:
+            if docOpenPrompt.ShowModal() == wx.ID_CANCEL:
+                return
+
+            path = docOpenPrompt.GetPath()
+            with open(path, 'r') as docFile:
+                doc_content = docFile.read()
+                root = doc_node(doc_content, "", None)
+                self.editCtrl.SetValue(root.content)
+                self.descCtrl.SetValue(root.desc)
+                curr_node = root
+                self.Refresh()
+
     def onPaint(self, event):
         global panelSize
         dc = wx.PaintDC(self.treePanel)

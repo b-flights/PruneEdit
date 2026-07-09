@@ -104,6 +104,7 @@ class appFrame(wx.Frame):
         self.treePanel.Bind(wx.EVT_SIZE, self.onResizePanel)
         self.treePanel.Bind(wx.EVT_MOTION, self.onMouseMove)
         self.treePanel.Bind(wx.EVT_LEFT_DOWN, self.onTreeClick)
+        self.Bind(wx.EVT_MENU, self.onOpenDoc, id=self.fileMenu_open.GetId())
 
     def onUpdate(self, event):
         event.Skip()
@@ -127,4 +128,7 @@ class appFrame(wx.Frame):
         event.Skip()
 
     def onTreeClick(self, event):
+        event.Skip()
+        
+    def onOpenDoc(self, event):
         event.Skip()
