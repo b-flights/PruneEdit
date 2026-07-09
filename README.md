@@ -9,4 +9,6 @@ Requirements:
 
 `Python` (3.13 or later) https://www.python.org/downloads/<br>
 `wxPython` https://www.wxpython.org/pages/downloads/<br>
-`mypy` (Optional, for type checking)
+`mypy` (Optional, for type checking)<br>
+
+To run the program, run `python main.py` (or `python3 main.py` on Linux) from the /src directory.
