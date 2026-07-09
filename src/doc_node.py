@@ -1,0 +1,82 @@
+from typing import *
+
+
+class doc_node:
+    content: str
+    desc: str
+    children: list["doc_node"]
+    parent_node: Optional["doc_node"]
+    depth: int
+
+    # Nodes are represented using horizontal strips of space, with proportion being the horizontal
+    # proportion of treePanel allocated to a node, and start being the starting position of a strip
+    # as a fraction of treePanel's width. Nodes are rendered in the centre of their allocated strip
+    proportion: float
+    start: float
+
+    x: float
+    y: float
+
+    def __init__(
+        self,
+        init_content: str,
+        init_desc: str,
+        parent_node: Optional["doc_node"]
+    ):
+
+        self.content = init_content
+        self.desc = init_desc
+        self.children = []
+        self.parent = parent_node
+        if parent_node is not None:
+            self.depth = parent_node.depth + 1
+        else:
+            self.depth = 0
+        self.nodes_across = 1
+        self.proportion = 1.0
+        self.start = 0
+        self.x = 0.0
+        self.y = 0.0
+
+    # Update provided attributes
+    def update_content(
+        self,
+        new_content: Optional[str],
+        new_desc: Optional[str]
+    ):
+
+        if new_content is not None:
+            self.content = new_content
+        if new_desc is not None:
+            self.desc = new_desc
+
+    # Create a new revision as a child of the current node
+    def add_new_ver(self, new_content: str, new_desc: str) -> "doc_node":
+        new_node = doc_node(new_content, new_desc, self)
+        self.children.append(new_node)
+        return new_node
+
+    # Returns the highest depth of a descendant
+    def get_max_depth(self) -> int:
+        curr_max = self.depth
+        for node in self.children:
+            node_max_depth = node.get_max_depth()
+            if node_max_depth > curr_max:
+                curr_max = node_max_depth
+
+        return curr_max
+
+    # Return a list containing all descendants
+    def traverse(self) -> list:
+        node_list = [self]
+        for node in self.children:
+            node_list.extend(node.traverse())
+
+        return node_list
+
+    # Calculate and assign the horizontal proportion of visual space allocated to each node
+    def distribute_proportion(self):
+        for node in self.children:
+            # Each child node gets an equal proportion of its parent's space
+            node.proportion = self.proportion / len(self.children)
+            node.distribute_proportion()
