@@ -93,22 +93,22 @@ class doc_node:
             "description": self.desc,
             "children": child_dicts
         }
-        
+
         return tree_dict
-        
+
     # Load content of dictionary as a tree
     def load_tree_dict(self, tree_dict: dict) -> int:
         for attr in ("content", "description", "children"):
             if attr not in tree_dict.keys():
-                return 1  #Error
-                
+                return 1  # Error
+
         self.content = tree_dict["content"]
         self.desc = tree_dict["description"]
-        
+
         for child in tree_dict["children"]:
             new_node = doc_node("", "", self)
             if new_node.load_tree_dict(child) == 1:
                 return 1
             self.children.append(new_node)
-            
+
         return 0
