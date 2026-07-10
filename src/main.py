@@ -62,7 +62,7 @@ class appFrameInst(appFrame):
         self.model.max_depth = self.model.root.get_max_depth()
         self.model.update_start_positions()
         self.Refresh()
-        
+
     def onSetMain(self, event):
         self.model.root = self.model.curr_node
         self.model.root.proportion = 1.0
@@ -181,6 +181,9 @@ class appFrameInst(appFrame):
                     * self.model.panelSize[1]),
                 self.model.NODE_RADIUS
             )
+
+        if self.model.active_node is not None:
+            dc.DrawText(self.model.active_node.desc, 0, 0)
 
 
 if __name__ == '__main__':

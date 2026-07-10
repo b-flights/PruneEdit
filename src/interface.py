@@ -62,7 +62,7 @@ class appFrame(wx.Frame):
             self, wx.ID_ANY, "Save as New", wx.DefaultPosition, wx.Size(-1, 40), 0
         )
         optSizer.Add(self.newRevButton, 1, wx.ALL, 5)
-        
+
         self.setMainButton = wx.Button(
             self, wx.ID_ANY, "Set as Main", wx.DefaultPosition, wx.Size(-1, 40), 0
         )
@@ -117,7 +117,7 @@ class appFrame(wx.Frame):
 
     def onSaveRev(self, event):
         event.Skip()
-        
+
     def onSetMain(self, event):
         event.Skip()
 
@@ -138,6 +138,6 @@ class appFrame(wx.Frame):
 
     def onTreeClick(self, event):
         event.Skip()
-        
+
     def onOpenDoc(self, event):
         event.Skip()
