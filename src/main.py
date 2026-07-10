@@ -48,6 +48,30 @@ class appFrameInst(appFrame):
         self.model = appModel()
 
     def onUpdate(self, event):
+        # If the current node is an internal node, prompt
+        if len(self.model.curr_node.children) != 0:
+            with wx.MessageDialog(
+                self,
+                "The current version has had changes.",
+                "Notice",
+                wx.YES_NO
+            ) as dialog:
+                dialog.SetYesNoLabels("Discard Changes", "Save as New")
+                option = dialog.ShowModal()
+                
+                if option == wx.ID_NO:
+                    new_node = self.model.curr_node.add_new_ver(
+                        self.editCtrl.GetValue(), self.descCtrl.GetValue()
+                    )
+                    self.model.curr_node = new_node
+                    
+                elif option == wx.ID_YES:
+                    self.model.curr_node.children = []
+                    
+                self.model.node_list = self.model.root.traverse()
+                self.model.max_depth = self.model.root.get_max_depth()
+                self.model.update_start_positions()
+                    
         self.model.curr_node.update_content(
             self.editCtrl.GetValue(), self.descCtrl.GetValue()
         )
@@ -69,6 +93,10 @@ class appFrameInst(appFrame):
         self.model.node_list = self.model.root.traverse()
         self.model.max_depth = self.model.root.get_max_depth()
         self.model.update_start_positions()
+        
+        self.editCtrl.SetValue(self.model.curr_node.content)
+        self.descCtrl.SetValue(self.model.curr_node.desc)
+        
         self.Refresh()
 
     def onSetMain(self, event):
@@ -91,7 +119,10 @@ class appFrameInst(appFrame):
                     parent_node.children.pop(index)
 
             self.model.curr_node = parent_node
-
+            
+        self.editCtrl.SetValue(self.model.curr_node.content)
+        self.descCtrl.SetValue(self.model.curr_node.desc)
+        
         self.model.node_list = self.model.root.traverse()
         self.model.max_depth = self.model.root.get_max_depth()
         self.model.update_start_positions()
