@@ -56,10 +56,11 @@ class doc_node:
         self.children.append(new_node)
         return new_node
 
-    # Returns the highest depth of a descendant
+    # Updates depth of each descendant and returns the highest descendant's depth
     def get_max_depth(self) -> int:
         curr_max = self.depth
         for node in self.children:
+            node.depth = self.depth + 1
             node_max_depth = node.get_max_depth()
             if node_max_depth > curr_max:
                 curr_max = node_max_depth

@@ -62,6 +62,17 @@ class appFrameInst(appFrame):
         self.model.max_depth = self.model.root.get_max_depth()
         self.model.update_start_positions()
         self.Refresh()
+        
+    def onSetMain(self, event):
+        self.model.root = self.model.curr_node
+        self.model.root.proportion = 1.0
+        self.model.root.start = 0.0
+        self.model.root.depth = 0
+        self.model.root.parent = None
+        self.model.node_list = self.model.root.traverse()
+        self.model.max_depth = self.model.root.get_max_depth()
+        self.model.update_start_positions()
+        self.Refresh()
 
     def onDelete(self, event):
         if self.model.curr_node.parent is not None:

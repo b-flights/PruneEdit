@@ -49,7 +49,7 @@ class appFrame(wx.Frame):
         editSizer.Add(descSizer, 0, wx.EXPAND, 5)
 
         self.toggleButton = wx.Button(
-            self, wx.ID_ANY, "Show\nTree", wx.DefaultPosition, wx.Size(50, 40), 0
+            self, wx.ID_ANY, "Show\nTree", wx.DefaultPosition, wx.Size(45, 40), 0
         )
         optSizer.Add(self.toggleButton, 0, wx.ALL | wx.EXPAND, 5)
 
@@ -62,6 +62,11 @@ class appFrame(wx.Frame):
             self, wx.ID_ANY, "Save as New", wx.DefaultPosition, wx.Size(-1, 40), 0
         )
         optSizer.Add(self.newRevButton, 1, wx.ALL, 5)
+        
+        self.setMainButton = wx.Button(
+            self, wx.ID_ANY, "Set as Main", wx.DefaultPosition, wx.Size(-1, 40), 0
+        )
+        optSizer.Add(self.setMainButton, 1, wx.ALL, 5)
 
         self.deleteButton = wx.Button(
             self, wx.ID_ANY, "Delete", wx.DefaultPosition, wx.Size(-1, 40), 0
@@ -99,6 +104,7 @@ class appFrame(wx.Frame):
 
         self.updateButton.Bind(wx.EVT_BUTTON, self.onUpdate)
         self.newRevButton.Bind(wx.EVT_BUTTON, self.onSaveRev)
+        self.setMainButton.Bind(wx.EVT_BUTTON, self.onSetMain)
         self.deleteButton.Bind(wx.EVT_BUTTON, self.onDelete)
         self.toggleButton.Bind(wx.EVT_BUTTON, self.onTreeToggle)
         self.treePanel.Bind(wx.EVT_SIZE, self.onResizePanel)
@@ -109,7 +115,10 @@ class appFrame(wx.Frame):
     def onUpdate(self, event):
         event.Skip()
 
-    def onSave(self, event):
+    def onSaveRev(self, event):
+        event.Skip()
+        
+    def onSetMain(self, event):
         event.Skip()
 
     def onDelete(self, event):
