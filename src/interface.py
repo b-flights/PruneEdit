@@ -49,30 +49,50 @@ class appFrame(wx.Frame):
         editSizer.Add(descSizer, 0, wx.EXPAND, 5)
 
         self.toggleButton = wx.Button(
-            self, wx.ID_ANY, "Show\nTree", wx.DefaultPosition, wx.Size(45, 40), 0
+            self, wx.ID_ANY, "Show\nTree", wx.DefaultPosition, wx.Size(45, -1), 0
         )
-        optSizer.Add(self.toggleButton, 0, wx.ALL | wx.EXPAND, 5)
+        self.toggleButton.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
+        optSizer.Add(self.toggleButton, 0, wx.ALL | wx.EXPAND, 3)
+        
+        optSizerGrid = wx.GridSizer( 2, 3, 0, 0 )
 
         self.updateButton = wx.Button(
-            self, wx.ID_ANY, "Update", wx.DefaultPosition, wx.Size(-1, 40), 0
+            self, wx.ID_ANY, "Update", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        optSizer.Add(self.updateButton, 1, wx.ALL, 5)
+        self.updateButton.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
+        optSizerGrid.Add(self.updateButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.newRevButton = wx.Button(
-            self, wx.ID_ANY, "Save as New", wx.DefaultPosition, wx.Size(-1, 40), 0
+            self, wx.ID_ANY, "Save as New", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        optSizer.Add(self.newRevButton, 1, wx.ALL, 5)
+        self.newRevButton.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
+        optSizerGrid.Add(self.newRevButton, 1, wx.ALL | wx.EXPAND, 3)
+        
+        self.newBlankButton = wx.Button(
+            self, wx.ID_ANY, "New Blank Version", wx.DefaultPosition, wx.Size(-1, 30), 0
+        )
+        self.newBlankButton.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
+        optSizerGrid.Add(self.newBlankButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.setMainButton = wx.Button(
-            self, wx.ID_ANY, "Set as Main", wx.DefaultPosition, wx.Size(-1, 40), 0
+            self, wx.ID_ANY, "Set as Main", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        optSizer.Add(self.setMainButton, 1, wx.ALL, 5)
+        self.setMainButton.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
+        optSizerGrid.Add(self.setMainButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.deleteButton = wx.Button(
-            self, wx.ID_ANY, "Delete", wx.DefaultPosition, wx.Size(-1, 40), 0
+            self, wx.ID_ANY, "Delete", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        optSizer.Add(self.deleteButton, 1, wx.ALL, 5)
+        self.deleteButton.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
+        optSizerGrid.Add(self.deleteButton, 1, wx.ALL | wx.EXPAND, 3)
+        
+        self.delChangeButton = wx.Button(
+            self, wx.ID_ANY, "Delete Changes", wx.DefaultPosition, wx.Size(-1, 30), 0
+        )
+        self.delChangeButton.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
+        optSizerGrid.Add(self.delChangeButton, 1, wx.ALL | wx.EXPAND, 3)
 
+        optSizer.Add(optSizerGrid, 1, wx.EXPAND, 5)
         editSizer.Add(optSizer, 0, wx.EXPAND, 5)
 
         self.divLine = wx.StaticLine(
@@ -104,8 +124,10 @@ class appFrame(wx.Frame):
 
         self.updateButton.Bind(wx.EVT_BUTTON, self.onUpdate)
         self.newRevButton.Bind(wx.EVT_BUTTON, self.onSaveRev)
+        self.newBlankButton.Bind(wx.EVT_BUTTON, self.onNewBlank)
         self.setMainButton.Bind(wx.EVT_BUTTON, self.onSetMain)
         self.deleteButton.Bind(wx.EVT_BUTTON, self.onDelete)
+        self.delChangeButton.Bind(wx.EVT_BUTTON, self.onDelChange)
         self.toggleButton.Bind(wx.EVT_BUTTON, self.onTreeToggle)
         self.treePanel.Bind(wx.EVT_SIZE, self.onResizePanel)
         self.treePanel.Bind(wx.EVT_MOTION, self.onMouseMove)
@@ -117,11 +139,17 @@ class appFrame(wx.Frame):
 
     def onSaveRev(self, event):
         event.Skip()
+        
+    def onNewBlank(self, event):
+        event.Skip()
 
     def onSetMain(self, event):
         event.Skip()
 
     def onDelete(self, event):
+        event.Skip()
+        
+    def onDelChange(self, event):
         event.Skip()
 
     def onTreeToggle(self, event):

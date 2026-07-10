@@ -63,6 +63,13 @@ class appFrameInst(appFrame):
         self.model.update_start_positions()
         self.Refresh()
 
+    def onNewBlank(self, event):
+        new_node = self.model.curr_node.add_new_ver("", "")
+        self.model.node_list = self.model.root.traverse()
+        self.model.max_depth = self.model.root.get_max_depth()
+        self.model.update_start_positions()
+        self.Refresh()
+
     def onSetMain(self, event):
         self.model.root = self.model.curr_node
         self.model.root.proportion = 1.0
@@ -84,6 +91,13 @@ class appFrameInst(appFrame):
 
             self.model.curr_node = parent_node
 
+        self.model.node_list = self.model.root.traverse()
+        self.model.max_depth = self.model.root.get_max_depth()
+        self.model.update_start_positions()
+        self.Refresh()
+        
+    def onDelChange(self, event):
+        self.model.curr_node.children = []
         self.model.node_list = self.model.root.traverse()
         self.model.max_depth = self.model.root.get_max_depth()
         self.model.update_start_positions()
