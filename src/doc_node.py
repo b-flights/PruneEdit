@@ -50,7 +50,7 @@ class doc_node:
         if new_desc is not None:
             self.desc = new_desc
 
-    # Create a new revision as a child of the current node
+    # Create a new version as a child of the current node
     def add_new_ver(self, new_content: str, new_desc: str) -> "doc_node":
         new_node = doc_node(new_content, new_desc, self)
         self.children.append(new_node)
@@ -67,7 +67,7 @@ class doc_node:
 
         return curr_max
 
-    # Return a list containing all descendants
+    # Return a list containing all descendants of this node
     def traverse(self) -> list:
         node_list = [self]
         for node in self.children:
@@ -81,3 +81,34 @@ class doc_node:
             # Each child node gets an equal proportion of its parent's space
             node.proportion = self.proportion / len(self.children)
             node.distribute_proportion()
+
+    # Create a dictionary representing this node's subtree
+    def create_tree_dict(self) -> dict:
+        child_dicts = []
+        for node in self.children:
+            child_dicts.append(node.create_tree_dict())
+
+        tree_dict = {
+            "content": self.content,
+            "description": self.desc,
+            "children": child_dicts
+        }
+        
+        return tree_dict
+        
+    # Load content of dictionary as a tree
+    def load_tree_dict(self, tree_dict: dict) -> int:
+        for attr in ("content", "description", "children"):
+            if attr not in tree_dict.keys():
+                return 1  #Error
+                
+        self.content = tree_dict["content"]
+        self.desc = tree_dict["description"]
+        
+        for child in tree_dict["children"]:
+            new_node = doc_node("", "", self)
+            if new_node.load_tree_dict(child) == 1:
+                return 1
+            self.children.append(new_node)
+            
+        return 0

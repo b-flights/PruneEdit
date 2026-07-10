@@ -125,10 +125,28 @@ class appFrame(wx.Frame):
         self.Layout()
         self.menuBar = wx.MenuBar(0)
         self.fileMenu = wx.Menu()
+        
         self.fileMenu_open = wx.MenuItem(
             self.fileMenu, wx.ID_ANY, "Open Document", wx.EmptyString, wx.ITEM_NORMAL
         )
         self.fileMenu.Append(self.fileMenu_open)
+        
+        self.fileMenu_save = wx.MenuItem(
+            self.fileMenu, wx.ID_ANY, "Save Document", wx.EmptyString, wx.ITEM_NORMAL
+        )
+        self.fileMenu.Append(self.fileMenu_save)
+        
+        self.fileMenu.AppendSeparator()
+        
+        self.fileMenu_openTree = wx.MenuItem(
+            self.fileMenu, wx.ID_ANY, "Open Tree", wx.EmptyString, wx.ITEM_NORMAL
+        )
+        self.fileMenu.Append(self.fileMenu_openTree)
+
+        self.fileMenu_saveTree = wx.MenuItem(
+            self.fileMenu, wx.ID_ANY, "Save Tree", wx.EmptyString, wx.ITEM_NORMAL
+        )
+        self.fileMenu.Append(self.fileMenu_saveTree)
 
         self.menuBar.Append(self.fileMenu, "File")
 
@@ -136,6 +154,7 @@ class appFrame(wx.Frame):
 
         self.Centre(wx.BOTH)
 
+        # Bind button handlers
         self.updateButton.Bind(wx.EVT_BUTTON, self.onUpdate)
         self.newRevButton.Bind(wx.EVT_BUTTON, self.onSaveRev)
         self.newBlankButton.Bind(wx.EVT_BUTTON, self.onNewBlank)
@@ -143,11 +162,18 @@ class appFrame(wx.Frame):
         self.deleteButton.Bind(wx.EVT_BUTTON, self.onDelete)
         self.delChangeButton.Bind(wx.EVT_BUTTON, self.onDelChange)
         self.toggleButton.Bind(wx.EVT_BUTTON, self.onTreeToggle)
+        
+        # Bind panel event handlers
         self.treePanel.Bind(wx.EVT_SIZE, self.onResizePanel)
         self.treePanel.Bind(wx.EVT_MOTION, self.onMouseMove)
         self.treePanel.Bind(wx.EVT_LEFT_DOWN, self.onTreeClick)
+        
+        # Bind menu item handlers
         self.Bind(wx.EVT_MENU, self.onOpenDoc, id=self.fileMenu_open.GetId())
-
+        self.Bind(wx.EVT_MENU, self.onSaveDoc, id=self.fileMenu_save.GetId())
+        self.Bind(wx.EVT_MENU, self.onOpenTree, id=self.fileMenu_openTree.GetId())
+        self.Bind(wx.EVT_MENU, self.onSaveTree, id=self.fileMenu_saveTree.GetId())
+        
     def onUpdate(self, event): event.Skip()
 
     def onSaveRev(self, event): event.Skip()
@@ -171,3 +197,9 @@ class appFrame(wx.Frame):
     def onTreeClick(self, event): event.Skip()
 
     def onOpenDoc(self, event): event.Skip()
+
+    def onSaveDoc(self, event): event.Skip()
+
+    def onOpenTree(self, event): event.Skip()
+
+    def onSaveTree(self, event): event.Skip()

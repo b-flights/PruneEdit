@@ -1,7 +1,8 @@
 from doc_node import doc_node
-from typing import *
-import wx  # type: ignore
 from interface import appFrame
+from typing import *
+import json
+import wx  # type: ignore
 
 
 class appModel():
@@ -95,7 +96,7 @@ class appFrameInst(appFrame):
         self.model.max_depth = self.model.root.get_max_depth()
         self.model.update_start_positions()
         self.Refresh()
-        
+
     def onDelChange(self, event):
         self.model.curr_node.children = []
         self.model.node_list = self.model.root.traverse()
@@ -145,6 +146,15 @@ class appFrameInst(appFrame):
             if docOpenPrompt.ShowModal() == wx.ID_CANCEL:
                 return
 
+            with wx.MessageDialog(
+                self,
+                "Your current tree will be erased. Continue?",
+                "Notice",
+                wx.YES_NO
+            ) as dialog:
+                if dialog.ShowModal() != wx.ID_YES:
+                    return
+
             path = docOpenPrompt.GetPath()
             with open(path, 'r') as docFile:
                 doc_content = docFile.read()
@@ -153,6 +163,69 @@ class appFrameInst(appFrame):
                 self.descCtrl.SetValue(self.model.root.desc)
                 self.model.curr_node = self.model.root
                 self.Refresh()
+
+    def onSaveDoc(self, event):
+        with wx.FileDialog(
+            self, "Save .txt file", wildcard="Text files (*.txt)|*.txt",
+            style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
+        ) as saveDocPrompt:
+            if saveDocPrompt.ShowModal() == wx.ID_CANCEL:
+                return
+
+            path = saveDocPrompt.GetPath()
+            with open(path, 'w') as treeFile:
+                treeFile.write(self.model.curr_node.content)
+
+    def onSaveTree(self, event):
+        with wx.FileDialog(
+            self, "Save tree file", wildcard="JSON files (*.json)|*.json",
+            style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
+        ) as saveTreePrompt:
+            if saveTreePrompt.ShowModal() == wx.ID_CANCEL:
+                return
+
+            path = saveTreePrompt.GetPath()
+            with open(path, 'w') as treeFile:
+                json_tree = json.dumps(self.model.root.create_tree_dict())
+                treeFile.write(json_tree)
+
+    def onOpenTree(self, event):
+        with wx.FileDialog(
+            self, "Select tree file", wildcard="JSON files (*.json)|*.json",
+            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST
+        ) as openTreePrompt:
+            if openTreePrompt.ShowModal() == wx.ID_CANCEL:
+                return
+
+            json_tree = {}
+            path = openTreePrompt.GetPath()
+            with open(path, 'r') as treeFile:
+                json_tree = json.loads(treeFile.read())
+                if json_tree is None:
+                    with wx.MessageDialog(
+                        self,
+                        "The selected tree file is invalid.",
+                        "Error"
+                    ) as dialog:
+                        dialog.ShowModal()
+                        return
+
+            with wx.MessageDialog(
+                self,
+                "Your current tree will be erased. Continue?",
+                "Notice",
+                wx.YES_NO
+            ) as dialog:
+                if dialog.ShowModal() != wx.ID_YES:
+                    return
+
+            self.model.root = doc_node("", "", None)
+            self.model.root.load_tree_dict(json_tree)
+
+        self.model.node_list = self.model.root.traverse()
+        self.model.max_depth = self.model.root.get_max_depth()
+        self.model.update_start_positions()
+        self.Refresh()
 
     def onPaint(self, event):
         dc = wx.PaintDC(self.treePanel)
