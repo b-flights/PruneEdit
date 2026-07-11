@@ -16,7 +16,7 @@ class appModel():
 
     root: doc_node
     curr_node: doc_node
-    active_node: Optional[doc_node]
+    hover_node: Optional[doc_node]
     node_list: list
     panelSize: "wx.Point"
     max_depth: int
@@ -28,7 +28,7 @@ class appModel():
         self.update_behaviour = 0
         self.root = doc_node("", "", None)
         self.curr_node = self.root
-        self.active_node = None
+        self.hover_node = None
         self.node_list = [self.root]
         self.panelSize = None
         self.max_depth = 0
@@ -97,7 +97,7 @@ class appFrameInst(appFrame):
         self.settings = prefWindowInst(parent=self)
 
         config_path = os.path.join(user_config_dir("PruneEdit"), "config.json")
-        print(config_path)
+
         if os.path.isfile(config_path):
             with open(config_path, "r") as settings_file:
                 app_settings = json.loads(settings_file.read())
@@ -221,15 +221,15 @@ class appFrameInst(appFrame):
             ) < self.model.node_radius ** 2:
                 new_node = node
 
-        if self.model.active_node != new_node:
-            self.model.active_node = new_node
+        if self.model.hover_node != new_node:
+            self.model.hover_node = new_node
             self.Refresh()
 
     def onTreeClick(self, event):
-        if self.model.active_node is not None:
-            self.model.curr_node = self.model.active_node
-            self.editCtrl.ChangeValue(self.model.active_node.content)
-            self.descCtrl.ChangeValue(self.model.active_node.desc)
+        if self.model.hover_node is not None:
+            self.model.curr_node = self.model.hover_node
+            self.editCtrl.ChangeValue(self.model.hover_node.content)
+            self.descCtrl.ChangeValue(self.model.hover_node.desc)
 
         self.Refresh()
 
@@ -349,13 +349,16 @@ class appFrameInst(appFrame):
         if self.model.auto_update:
             if len(self.model.curr_node.children) > 0:
                 match self.model.update_behaviour:
+                    # None
                     case 0:
                         return
+                    # Save as New Version
                     case 1:
                         new_node = self.model.curr_node.add_new_ver(
                             self.editCtrl.GetValue(), self.descCtrl.GetValue()
                         )
                         self.model.curr_node = new_node
+                    # Discard Child Versions
                     case 2:
                         self.model.curr_node.children = []
 
@@ -389,8 +392,11 @@ class appFrameInst(appFrame):
         node_queue = [self.model.root]
         curr_queue_node = self.model.root
 
+        # In-order traversal
         while not len(node_queue) == 0:
             curr_queue_node = node_queue.pop(0)
+            
+            # Draw lines between curr_queue_node and each child
             for node in curr_queue_node.children:
                 node_queue.append(node)
                 dc.SetPen(wx.Pen(wx.BLACK, int(self.model.node_thickness * 0.75)))
@@ -409,10 +415,11 @@ class appFrameInst(appFrame):
             if curr_queue_node == self.model.curr_node:
                 dc.SetPen(wx.Pen(wx.RED, self.model.node_thickness))
 
-            # Colour active node, takes priority if selected and active nodes are the same
-            if curr_queue_node == self.model.active_node:
+            # Colour hover node, takes priority if selected and hover nodes are the same
+            if curr_queue_node == self.model.hover_node:
                 dc.SetPen(wx.Pen(wx.BLUE, self.model.node_thickness))
 
+            # Draw current node in queue
             dc.DrawCircle(
                 int((curr_queue_node.start + curr_queue_node.proportion / 2)
                     * self.model.panelSize[0]),
@@ -421,8 +428,8 @@ class appFrameInst(appFrame):
                 self.model.node_radius
             )
 
-        if self.model.active_node is not None:
-            dc.DrawText(self.model.active_node.desc, 0, 0)
+        if self.model.hover_node is not None:
+            dc.DrawText(self.model.hover_node.desc, 0, 0)
 
 
 if __name__ == '__main__':
