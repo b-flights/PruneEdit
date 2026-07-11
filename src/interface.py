@@ -124,7 +124,16 @@ class appFrame(wx.Frame):
         self.SetSizer(mainSizer)
         self.Layout()
         self.menuBar = wx.MenuBar(0)
+
+        # File menu
         self.fileMenu = wx.Menu()
+
+        self.fileMenu_new = wx.MenuItem(
+            self.fileMenu, wx.ID_ANY, "New", wx.EmptyString, wx.ITEM_NORMAL
+        )
+        self.fileMenu.Append(self.fileMenu_new)
+
+        self.fileMenu.AppendSeparator()
 
         self.fileMenu_open = wx.MenuItem(
             self.fileMenu, wx.ID_ANY, "Open Document", wx.EmptyString, wx.ITEM_NORMAL
@@ -150,6 +159,15 @@ class appFrame(wx.Frame):
 
         self.menuBar.Append(self.fileMenu, "File")
 
+        # Options menu
+        self.optionsMenu = wx.Menu()
+        self.optionsMenu_prefs = wx.MenuItem(
+            self.fileMenu, wx.ID_ANY, "Preferences", wx.EmptyString, wx.ITEM_NORMAL
+        )
+        self.optionsMenu.Append(self.optionsMenu_prefs)
+
+        self.menuBar.Append(self.optionsMenu, "Options")
+
         self.SetMenuBar(self.menuBar)
 
         self.Centre(wx.BOTH)
@@ -169,10 +187,16 @@ class appFrame(wx.Frame):
         self.treePanel.Bind(wx.EVT_LEFT_DOWN, self.onTreeClick)
 
         # Bind menu item handlers
+        self.Bind(wx.EVT_MENU, self.onNewTree, id=self.fileMenu_new.GetId())
         self.Bind(wx.EVT_MENU, self.onOpenDoc, id=self.fileMenu_open.GetId())
         self.Bind(wx.EVT_MENU, self.onSaveDoc, id=self.fileMenu_save.GetId())
         self.Bind(wx.EVT_MENU, self.onOpenTree, id=self.fileMenu_openTree.GetId())
         self.Bind(wx.EVT_MENU, self.onSaveTree, id=self.fileMenu_saveTree.GetId())
+        self.Bind(wx.EVT_MENU, self.onOpenPrefs, id=self.optionsMenu_prefs.GetId())
+
+        # Bind edit handlers
+        self.editCtrl.Bind(wx.EVT_TEXT, self.onContentEdit)
+        self.descCtrl.Bind(wx.EVT_TEXT, self.onDescEdit)
 
     def onUpdate(self, event): event.Skip()
 
@@ -196,6 +220,8 @@ class appFrame(wx.Frame):
 
     def onTreeClick(self, event): event.Skip()
 
+    def onNewTree(self, event): event.Skip()
+
     def onOpenDoc(self, event): event.Skip()
 
     def onSaveDoc(self, event): event.Skip()
@@ -203,3 +229,127 @@ class appFrame(wx.Frame):
     def onOpenTree(self, event): event.Skip()
 
     def onSaveTree(self, event): event.Skip()
+
+    def onOpenPrefs(self, event): event.Skip()
+
+    def onContentEdit(self, event): event.Skip()
+
+    def onDescEdit(self, event): event.Skip()
+
+
+class prefWindow (wx.Frame):
+    def __init__(self, parent):
+        wx.Frame.__init__(
+            self,
+            parent,
+            id=wx.ID_ANY,
+            title="Preferences",
+            pos=wx.DefaultPosition,
+            size=wx.Size(375, 375),
+            style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.TAB_TRAVERSAL
+        )
+
+        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
+        self.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
+
+        mainSizer = wx.BoxSizer(wx.HORIZONTAL)
+        mainSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
+
+        optSizer = wx.BoxSizer(wx.VERTICAL)
+        optSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
+
+        self.nodeThicknessLabel = wx.StaticText(
+            self, wx.ID_ANY, "Node Thickness", wx.DefaultPosition, wx.DefaultSize, 0
+        )
+        optSizer.Add(self.nodeThicknessLabel, 0, wx.ALL, 5)
+
+        self.nodeThicknessSlider = wx.Slider(
+            self, wx.ID_ANY, 4, 1, 20, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
+        )
+        optSizer.Add(self.nodeThicknessSlider, 0, wx.ALL | wx.EXPAND, 5)
+
+        self.nodeRadiusLabel = wx.StaticText(
+            self, wx.ID_ANY, "Node Radius", wx.DefaultPosition, wx.DefaultSize, 0
+        )
+        optSizer.Add(self.nodeRadiusLabel, 0, wx.ALL, 5)
+
+        self.nodeRadiusSlider = wx.Slider(
+            self, wx.ID_ANY, 15, 3, 50, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
+        )
+        optSizer.Add(self.nodeRadiusSlider, 0, wx.ALL | wx.EXPAND, 5)
+
+        self.divLine1 = wx.StaticLine(
+            self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL
+        )
+        optSizer.Add(self.divLine1, 0, wx.EXPAND | wx.ALL, 5)
+
+        self.updateCheckBox = wx.CheckBox(
+            self, wx.ID_ANY, "Auto Update", wx.DefaultPosition, wx.DefaultSize, 0
+        )
+        optSizer.Add(self.updateCheckBox, 0, wx.ALL, 5)
+
+        self.divLine2 = wx.StaticLine(
+            self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL
+        )
+        optSizer.Add(self.divLine2, 0, wx.EXPAND | wx.ALL, 5)
+
+        self.updateChoiceLabel = wx.StaticText(
+            self, wx.ID_ANY,
+            "Auto Update behaviour for internal versions",
+            wx.DefaultPosition, wx.DefaultSize,
+            0
+        )
+        optSizer.Add(self.updateChoiceLabel, 0, wx.ALL, 5)
+
+        self.updateChoiceBox = wx.Choice(
+            self,
+            wx.ID_ANY,
+            wx.DefaultPosition,
+            wx.DefaultSize,
+            [
+                "None",
+                "Save as New Version",
+                "Discard Child Versions"
+            ],
+            0
+        )
+        self.updateChoiceBox.SetSelection(0)
+        optSizer.Add(self.updateChoiceBox, 0, wx.ALL, 5)
+
+        self.savePrefButton = wx.Button(
+            self, wx.ID_ANY, "Save Preferences", wx.DefaultPosition, wx.Size(-1, -1), 0
+        )
+        self.savePrefButton.SetBackgroundColour(
+            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
+        )
+        optSizer.Add(self.savePrefButton, 0, wx.ALL, 5)
+
+        optSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
+
+        mainSizer.Add(optSizer, 12, wx.EXPAND, 5)
+
+        mainSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
+
+        self.SetSizer(mainSizer)
+        self.Layout()
+
+        self.Centre(wx.BOTH)
+
+        self.nodeThicknessSlider.Bind(wx.EVT_SCROLL, self.onThicknessChange)
+        self.nodeRadiusSlider.Bind(wx.EVT_SCROLL, self.onRadiusChange)
+        self.updateCheckBox.Bind(wx.EVT_CHECKBOX, self.onAutoUpdateCheck)
+        self.savePrefButton.Bind(wx.EVT_BUTTON, self.onSavePref)
+        self.updateChoiceBox.Bind(wx.EVT_CHOICE, self.onUpdateChoice)
+        self.Bind(wx.EVT_CLOSE, self.onWindowClose)
+
+    def onThicknessChange(self, event): event.Skip()
+
+    def onRadiusChange(self, event): event.Skip()
+
+    def onAutoUpdateCheck(self, event): event.Skip()
+
+    def onSavePref(self, event): event.Skip()
+
+    def onUpdateChoice(self, event): event.Skip()
+
+    def onWindowClose(self, event): event.Skip()
