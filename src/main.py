@@ -363,8 +363,7 @@ class appFrameInst(appFrame):
                         self.model.curr_node.children = []
 
         else:
-            if len(self.model.curr_node.children) > 0:
-                return
+            return
 
         self.model.curr_node.update_content(
             self.editCtrl.GetValue(), self.descCtrl.GetValue()
