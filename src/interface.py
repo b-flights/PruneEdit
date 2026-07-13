@@ -250,7 +250,7 @@ class appFrame(wx.Frame):
     def onDescEdit(self, event): event.Skip()
 
 
-class prefWindow (wx.Frame):
+class prefWindow(wx.Frame):
     def __init__(self, parent):
         wx.Frame.__init__(
             self,
