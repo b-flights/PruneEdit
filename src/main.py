@@ -1,5 +1,5 @@
 from doc_node import doc_node
-from interface import appFrame, prefWindow
+from interface import *
 from platformdirs import user_config_dir
 from typing import *
 import json
@@ -345,6 +345,10 @@ class appFrameInst(appFrame):
     def onOpenPrefs(self, event):
         self.settings.Show()
 
+    def onOpenHelp(self, event):
+        self.help = helpWindow(parent=self)
+        self.help.Show()
+
     def handleUpdate(self):
         if self.model.auto_update:
             if len(self.model.curr_node.children) > 0:
@@ -394,7 +398,7 @@ class appFrameInst(appFrame):
         # In-order traversal
         while not len(node_queue) == 0:
             curr_queue_node = node_queue.pop(0)
-            
+
             # Draw lines between curr_queue_node and each child
             for node in curr_queue_node.children:
                 node_queue.append(node)

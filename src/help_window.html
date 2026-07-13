@@ -1,0 +1,68 @@
+<html>
+    <body>
+        <h1>PruneEdit</h1>
+        <p>PruneEdit is a tool that allows you to instantly edit multiple versions of a text document using an interactive tree visual. Each version of your text, along with an optional description, is represented by a node on the tree. You can quickly select different versions and edit their contents.</p>
+
+        <br><hr>
+
+        <h3>Tree Panel Usage</h3>
+        <p>Text versions are selected by clicking on the corresponding node in the tree panel. Hovering over a node displays its description in the top left of the panel. The contents and description of the current node (highlighted in red) can be edited in the edit boxes to the left of the tree panel.</p>
+
+        <br><hr>
+
+        <h3>Operations</h3>
+        <h5>Show Tree/Hide Tree</h5>
+        <p>Display/hide the tree panel.</p>
+        <h5>Update</h5>
+        <p>Update the content and description of the current version.</p>
+        <h5>Save as New</h5>
+        <p>Save the content and description as a child version of the current node.</p>
+        <h5>New Blank Version</h5>
+        <p>Add a blank version as a child of the current version.</p>
+        <h5>Set as Main</h5>
+        <p>Set the current version as the root version, discarding all prior versions.</p>
+        <h5>Delete</h5>
+        <p>Delete the current version and all child versions.</p>
+        <h5>Delete Changes</h5>
+        <p>Delete all child versions of the current version only.</p>
+
+        <br><hr>
+
+        <h3>File Menu</h3>
+        <h5>New</h5>
+        <p>Create a new empty version tree.</p>
+        <h5>Open Document</h5>
+        <p>Load in a .txt document file as a node in a new tree.</p>
+        <h5>Save Document</h5>
+        <p>Save the current node's content as a .txt file.</p>
+        <h5>Open Tree</h5>
+        <p>Load a version tree saved as a .json file.</p>
+        <h5>Save Tree</h5>
+        <p>Save the current tree as a .json file.</p>
+
+        <br><hr>
+
+        <h3>Preferences</h3>
+        <h5>Node Thickness</h5>
+        <p>The thickness given to a node's outline displayed in the tree panel.</p>
+        <h5>Node Radius</h5>
+        <p>The radius (size) of nodes displayed in the tree panel.</p>
+        <h5>Auto Update</h5></span>
+        <p>Automatically save a node's content/description when edited.</p>
+        <h5>Auto Update behaviour for internal versions</h5>
+        <p>Determines how nodes with child versions are handled when auto update is enabled.</p>
+        <dl>
+            <dd>
+                <b>None</b> - Do not update internal versions.<br>
+            </dd>
+            <dd>
+                <b>Save as New Version</b> - Save any edits as a new child version of the current node.<br>
+            </dd>
+            <dd>
+                <b>Discard Child Versions</b> - Remove all child versions of the current node and update the content and description.
+            </dd>
+        </dl>
+        <h5>Save Preferences</h5>
+        <p>Saves the current preferences to be loaded upon reopening the program.</p>
+    </body>
+</html>

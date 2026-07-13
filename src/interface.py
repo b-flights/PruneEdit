@@ -1,4 +1,5 @@
 import wx  # type: ignore
+import wx.html  # type: ignore
 
 
 class appFrame(wx.Frame):
@@ -168,6 +169,15 @@ class appFrame(wx.Frame):
 
         self.menuBar.Append(self.optionsMenu, "Options")
 
+        # Help menu
+        self.helpMenu = wx.Menu()
+        self.helpMenu_help = wx.MenuItem(
+            self.fileMenu, wx.ID_ANY, "Help", wx.EmptyString, wx.ITEM_NORMAL
+        )
+        self.helpMenu.Append(self.helpMenu_help)
+
+        self.menuBar.Append(self.helpMenu, "Help")
+
         self.SetMenuBar(self.menuBar)
 
         self.Centre(wx.BOTH)
@@ -193,6 +203,7 @@ class appFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onOpenTree, id=self.fileMenu_openTree.GetId())
         self.Bind(wx.EVT_MENU, self.onSaveTree, id=self.fileMenu_saveTree.GetId())
         self.Bind(wx.EVT_MENU, self.onOpenPrefs, id=self.optionsMenu_prefs.GetId())
+        self.Bind(wx.EVT_MENU, self.onOpenHelp, id=self.helpMenu_help.GetId())
 
         # Bind edit handlers
         self.editCtrl.Bind(wx.EVT_TEXT, self.onContentEdit)
@@ -231,6 +242,8 @@ class appFrame(wx.Frame):
     def onSaveTree(self, event): event.Skip()
 
     def onOpenPrefs(self, event): event.Skip()
+
+    def onOpenHelp(self, event): event.Skip()
 
     def onContentEdit(self, event): event.Skip()
 
@@ -353,3 +366,36 @@ class prefWindow (wx.Frame):
     def onUpdateChoice(self, event): event.Skip()
 
     def onWindowClose(self, event): event.Skip()
+
+
+class helpWindow(wx.Frame):
+    def __init__(self, parent):
+        wx.Frame.__init__(
+            self,
+            parent,
+            id=wx.ID_ANY,
+            title="Help",
+            pos=wx.DefaultPosition,
+            size=wx.Size(500, 500),
+            style=wx.DEFAULT_FRAME_STYLE
+        )
+
+        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
+        self.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
+
+        mainSizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        self.helpText = wx.html.HtmlWindow(
+            self,
+            wx.ID_ANY,
+            wx.DefaultPosition,
+            wx.DefaultSize,
+            wx.html.HW_SCROLLBAR_AUTO
+        )
+        self.helpText.LoadFile("help_window.html")
+        mainSizer.Add(self.helpText, 1, wx.ALL | wx.EXPAND, 5)
+
+        self.SetSizer(mainSizer)
+        self.Layout()
+
+        self.Centre(wx.BOTH)
