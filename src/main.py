@@ -49,6 +49,12 @@ class appModel():
                 node.y = node.depth / self.max_depth
                 node_proportion += node.proportion
 
+    # Update the layout attributes (depth, start, proportion) of all nodes
+    def update_tree_attributes(self):
+        self.node_list = self.root.traverse()
+        self.max_depth = self.root.get_max_depth()
+        self.update_start_positions()
+
 
 class prefWindowInst(prefWindow):
     def __init__(self, parent):
@@ -132,9 +138,7 @@ class appFrameInst(appFrame):
                 elif option == wx.ID_YES:
                     self.model.curr_node.children = []
 
-                self.model.node_list = self.model.root.traverse()
-                self.model.max_depth = self.model.root.get_max_depth()
-                self.model.update_start_positions()
+                self.model.update_tree_attributes()
 
         self.model.curr_node.update_content(
             self.editCtrl.GetValue(), self.descCtrl.GetValue()
@@ -147,16 +151,13 @@ class appFrameInst(appFrame):
             self.editCtrl.GetValue(), self.descCtrl.GetValue()
         )
         self.model.curr_node = new_node
-        self.model.node_list = self.model.root.traverse()
-        self.model.max_depth = self.model.root.get_max_depth()
-        self.model.update_start_positions()
+        self.model.update_tree_attributes()
         self.Refresh()
 
     def onNewBlank(self, event):
         new_node = self.model.curr_node.add_new_ver("", "")
-        self.model.node_list = self.model.root.traverse()
-        self.model.max_depth = self.model.root.get_max_depth()
-        self.model.update_start_positions()
+        self.model.curr_node = new_node
+        self.model.update_tree_attributes()
 
         self.editCtrl.ChangeValue(self.model.curr_node.content)
         self.descCtrl.ChangeValue(self.model.curr_node.desc)
@@ -169,9 +170,7 @@ class appFrameInst(appFrame):
         self.model.root.start = 0.0
         self.model.root.depth = 0
         self.model.root.parent = None
-        self.model.node_list = self.model.root.traverse()
-        self.model.max_depth = self.model.root.get_max_depth()
-        self.model.update_start_positions()
+        self.model.update_tree_attributes()
         self.Refresh()
 
     def onDelete(self, event):
@@ -187,16 +186,12 @@ class appFrameInst(appFrame):
         self.editCtrl.ChangeValue(self.model.curr_node.content)
         self.descCtrl.ChangeValue(self.model.curr_node.desc)
 
-        self.model.node_list = self.model.root.traverse()
-        self.model.max_depth = self.model.root.get_max_depth()
-        self.model.update_start_positions()
+        self.model.update_tree_attributes()
         self.Refresh()
 
     def onDelChange(self, event):
         self.model.curr_node.children = []
-        self.model.node_list = self.model.root.traverse()
-        self.model.max_depth = self.model.root.get_max_depth()
-        self.model.update_start_positions()
+        self.model.update_tree_attributes()
         self.Refresh()
 
     def onTreeToggle(self, event):
@@ -248,9 +243,7 @@ class appFrameInst(appFrame):
         self.editCtrl.ChangeValue("")
         self.descCtrl.ChangeValue("")
 
-        self.model.node_list = self.model.root.traverse()
-        self.model.max_depth = self.model.root.get_max_depth()
-        self.model.update_start_positions()
+        self.model.update_tree_attributes()
         self.Refresh()
 
     def onOpenDoc(self, event):
@@ -337,9 +330,12 @@ class appFrameInst(appFrame):
             self.model.root = doc_node("", "", None)
             self.model.root.load_tree_dict(json_tree)
 
-        self.model.node_list = self.model.root.traverse()
-        self.model.max_depth = self.model.root.get_max_depth()
-        self.model.update_start_positions()
+        self.model.curr_node = self.model.root
+        self.model.update_tree_attributes()
+
+        self.editCtrl.ChangeValue(self.model.curr_node.content)
+        self.descCtrl.ChangeValue(self.model.curr_node.desc)
+
         self.Refresh()
 
     def onOpenPrefs(self, event):
@@ -372,9 +368,7 @@ class appFrameInst(appFrame):
         self.model.curr_node.update_content(
             self.editCtrl.GetValue(), self.descCtrl.GetValue()
         )
-        self.model.node_list = self.model.root.traverse()
-        self.model.max_depth = self.model.root.get_max_depth()
-        self.model.update_start_positions()
+        self.model.update_tree_attributes()
 
         self.Refresh()
         self.Update()

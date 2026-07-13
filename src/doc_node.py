@@ -38,7 +38,7 @@ class doc_node:
         self.x = 0.0
         self.y = 0.0
 
-    # Update provided attributes
+    # Update content/description if provided
     def update_content(
         self,
         new_content: Optional[str],
