@@ -75,10 +75,23 @@ class prefWindowInst(prefWindow):
     def onUpdateChoice(self, event):
         self.parent.model.update_behaviour = self.updateChoiceBox.GetSelection()
 
+    def onFontSizeChange(self, event):
+        self.parent.editCtrl.SetFont(
+            wx.Font(
+                self.fontSizeSelect.GetValue(),
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                False,
+                wx.EmptyString
+            )
+        )
+
     def onSavePref(self, event):
         app_settings = json.dumps({
             "node_thickness": self.parent.model.node_thickness,
             "node_radius": self.parent.model.node_radius,
+            "font_size": self.fontSizeSelect.GetValue(),
             "auto_update": self.parent.model.auto_update,
             "update_behaviour": self.parent.model.update_behaviour
         })
@@ -104,6 +117,17 @@ class appFrameInst(appFrame):
 
         config_path = os.path.join(user_config_dir("PruneEdit"), "config.json")
 
+        self.editCtrl.SetFont(
+            wx.Font(
+                self.settings.fontSizeSelect.GetValue(),
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                False,
+                wx.EmptyString
+            )
+        )
+
         if os.path.isfile(config_path):
             with open(config_path, "r") as settings_file:
                 app_settings = json.loads(settings_file.read())
@@ -115,6 +139,19 @@ class appFrameInst(appFrame):
                 if "node_radius" in app_settings.keys():
                     self.model.node_radius = app_settings["node_radius"]
                     self.settings.nodeRadiusSlider.SetValue(self.model.node_radius)
+
+                if "font_size" in app_settings.keys():
+                    self.editCtrl.SetFont(
+                        wx.Font(
+                            app_settings["font_size"],
+                            wx.FONTFAMILY_DEFAULT,
+                            wx.FONTSTYLE_NORMAL,
+                            wx.FONTWEIGHT_NORMAL,
+                            False,
+                            wx.EmptyString
+                        )
+                    )
+                    self.settings.fontSizeSelect.SetValue(app_settings["font_size"])
 
                 if "auto_update" in app_settings.keys():
                     self.model.auto_update = app_settings["auto_update"]

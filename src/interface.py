@@ -258,7 +258,7 @@ class prefWindow(wx.Frame):
             id=wx.ID_ANY,
             title="Preferences",
             pos=wx.DefaultPosition,
-            size=wx.Size(375, 375),
+            size=wx.Size(375, 440),
             style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.TAB_TRAVERSAL
         )
 
@@ -291,6 +291,16 @@ class prefWindow(wx.Frame):
         )
         optSizer.Add(self.nodeRadiusSlider, 0, wx.ALL | wx.EXPAND, 5)
 
+        self.fontSizeLabel = wx.StaticText(
+            self, wx.ID_ANY, "Font Size", wx.DefaultPosition, wx.DefaultSize, 0
+        )
+        optSizer.Add(self.fontSizeLabel, 0, wx.ALL, 5)
+
+        self.fontSizeSelect = wx.SpinCtrl(
+            self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 5, 48, 11
+        )
+        optSizer.Add(self.fontSizeSelect, 0, wx.ALL, 5)
+
         self.divLine1 = wx.StaticLine(
             self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL
         )
@@ -300,11 +310,6 @@ class prefWindow(wx.Frame):
             self, wx.ID_ANY, "Auto Update", wx.DefaultPosition, wx.DefaultSize, 0
         )
         optSizer.Add(self.updateCheckBox, 0, wx.ALL, 5)
-
-        self.divLine2 = wx.StaticLine(
-            self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL
-        )
-        optSizer.Add(self.divLine2, 0, wx.EXPAND | wx.ALL, 5)
 
         self.updateChoiceLabel = wx.StaticText(
             self, wx.ID_ANY,
@@ -329,8 +334,13 @@ class prefWindow(wx.Frame):
         self.updateChoiceBox.SetSelection(0)
         optSizer.Add(self.updateChoiceBox, 0, wx.ALL, 5)
 
+        self.divLine2 = wx.StaticLine(
+            self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL
+        )
+        optSizer.Add(self.divLine2, 0, wx.EXPAND | wx.ALL, 5)
+
         self.savePrefButton = wx.Button(
-            self, wx.ID_ANY, "Save Preferences", wx.DefaultPosition, wx.Size(-1, -1), 0
+            self, wx.ID_ANY, "Save Preferences", wx.DefaultPosition, wx.Size(130, 40), 0
         )
         self.savePrefButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -353,6 +363,7 @@ class prefWindow(wx.Frame):
         self.updateCheckBox.Bind(wx.EVT_CHECKBOX, self.onAutoUpdateCheck)
         self.savePrefButton.Bind(wx.EVT_BUTTON, self.onSavePref)
         self.updateChoiceBox.Bind(wx.EVT_CHOICE, self.onUpdateChoice)
+        self.fontSizeSelect.Bind(wx.EVT_SPINCTRL, self.onFontSizeChange)
         self.Bind(wx.EVT_CLOSE, self.onWindowClose)
 
     def onThicknessChange(self, event): event.Skip()
@@ -364,6 +375,8 @@ class prefWindow(wx.Frame):
     def onSavePref(self, event): event.Skip()
 
     def onUpdateChoice(self, event): event.Skip()
+
+    def onFontSizeChange(self, event): event.Skip()
 
     def onWindowClose(self, event): event.Skip()
 
