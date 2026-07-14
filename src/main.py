@@ -107,15 +107,22 @@ class appFrameInst(appFrame):
         if os.path.isfile(config_path):
             with open(config_path, "r") as settings_file:
                 app_settings = json.loads(settings_file.read())
-                self.model.node_thickness = app_settings["node_thickness"]
-                self.model.node_radius = app_settings["node_radius"]
-                self.model.auto_update = app_settings["auto_update"]
-                self.model.update_behaviour = app_settings["update_behaviour"]
 
-                self.settings.nodeThicknessSlider.SetValue(self.model.node_thickness)
-                self.settings.nodeRadiusSlider.SetValue(self.model.node_radius)
-                self.settings.updateCheckBox.SetValue(self.model.auto_update)
-                self.settings.updateChoiceBox.SetSelection(self.model.update_behaviour)
+                if "node_thickness" in app_settings.keys():
+                    self.model.node_thickness = app_settings["node_thickness"]
+                    self.settings.nodeThicknessSlider.SetValue(self.model.node_thickness)
+
+                if "node_radius" in app_settings.keys():
+                    self.model.node_radius = app_settings["node_radius"]
+                    self.settings.nodeRadiusSlider.SetValue(self.model.node_radius)
+
+                if "auto_update" in app_settings.keys():
+                    self.model.auto_update = app_settings["auto_update"]
+                    self.settings.updateCheckBox.SetValue(self.model.auto_update)
+
+                if "update_behaviour" in app_settings.keys():
+                    self.model.update_behaviour = app_settings["update_behaviour"]
+                    self.settings.updateChoiceBox.SetSelection(self.model.update_behaviour)
 
     def onUpdate(self, event):
         # If the current node is an internal node, prompt
