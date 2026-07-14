@@ -222,9 +222,23 @@ class appFrameInst(appFrame):
 
     def onTreeClick(self, event):
         if self.model.hover_node is not None:
-            self.model.curr_node = self.model.hover_node
-            self.editCtrl.ChangeValue(self.model.hover_node.content)
-            self.descCtrl.ChangeValue(self.model.hover_node.desc)
+            if wx.GetKeyState(wx.WXK_CONTROL):
+                if self.model.hover_node in self.model.curr_node.traverse():
+                    self.model.curr_node.content = self.model.hover_node.content
+                    self.model.curr_node.desc = self.model.hover_node.desc
+                    self.model.curr_node.children = self.model.hover_node.children
+
+                    for node in self.model.curr_node.children:
+                        node.parent = self.model.curr_node
+
+                    self.model.update_tree_attributes()
+
+                    self.editCtrl.ChangeValue(self.model.hover_node.content)
+                    self.descCtrl.ChangeValue(self.model.hover_node.desc)
+            else:
+                self.model.curr_node = self.model.hover_node
+                self.editCtrl.ChangeValue(self.model.hover_node.content)
+                self.descCtrl.ChangeValue(self.model.hover_node.desc)
 
         self.Refresh()
 
