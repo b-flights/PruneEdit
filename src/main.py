@@ -187,7 +187,7 @@ class appFrameInst(appFrame):
         self.model.curr_node.update_content(
             self.editCtrl.GetValue(), self.descCtrl.GetValue()
         )
-        self.Refresh()
+        self.treePanel.Refresh()
         self.Update()
 
     def onSaveRev(self, event):
@@ -196,7 +196,7 @@ class appFrameInst(appFrame):
         )
         self.model.curr_node = new_node
         self.model.update_tree_attributes()
-        self.Refresh()
+        self.treePanel.Refresh()
 
     def onNewBlank(self, event):
         new_node = self.model.curr_node.add_new_ver("", "")
@@ -206,7 +206,7 @@ class appFrameInst(appFrame):
         self.editCtrl.ChangeValue(self.model.curr_node.content)
         self.descCtrl.ChangeValue(self.model.curr_node.desc)
 
-        self.Refresh()
+        self.treePanel.Refresh()
 
     def onSetMain(self, event):
         self.model.root = self.model.curr_node
@@ -215,7 +215,7 @@ class appFrameInst(appFrame):
         self.model.root.depth = 0
         self.model.root.parent = None
         self.model.update_tree_attributes()
-        self.Refresh()
+        self.treePanel.Refresh()
 
     def onDelete(self, event):
         if self.model.curr_node.parent is not None:
@@ -231,12 +231,12 @@ class appFrameInst(appFrame):
         self.descCtrl.ChangeValue(self.model.curr_node.desc)
 
         self.model.update_tree_attributes()
-        self.Refresh()
+        self.treePanel.Refresh()
 
     def onDelChange(self, event):
         self.model.curr_node.children = []
         self.model.update_tree_attributes()
-        self.Refresh()
+        self.treePanel.Refresh()
 
     def onTreeToggle(self, event):
         if self.treePanel.IsShown():
@@ -248,7 +248,7 @@ class appFrameInst(appFrame):
         self.Layout()
 
     def onResizePanel(self, event):
-        self.Refresh()
+        self.treePanel.Refresh()
 
     def onMouseMove(self, event):
         new_node = None
@@ -262,7 +262,7 @@ class appFrameInst(appFrame):
 
         if self.model.hover_node != new_node:
             self.model.hover_node = new_node
-            self.Refresh()
+            self.treePanel.Refresh()
 
     def onTreeClick(self, event):
         if self.model.hover_node is not None:
@@ -284,7 +284,7 @@ class appFrameInst(appFrame):
                 self.editCtrl.ChangeValue(self.model.hover_node.content)
                 self.descCtrl.ChangeValue(self.model.hover_node.desc)
 
-        self.Refresh()
+        self.treePanel.Refresh()
 
     def onNewTree(self, event):
         with wx.MessageDialog(
@@ -302,7 +302,7 @@ class appFrameInst(appFrame):
         self.descCtrl.ChangeValue("")
 
         self.model.update_tree_attributes()
-        self.Refresh()
+        self.treePanel.Refresh()
 
     def onOpenDoc(self, event):
         with wx.FileDialog(
@@ -328,7 +328,7 @@ class appFrameInst(appFrame):
                 self.editCtrl.ChangeValue(self.model.root.content)
                 self.descCtrl.ChangeValue(self.model.root.desc)
                 self.model.curr_node = self.model.root
-                self.Refresh()
+                self.treePanel.Refresh()
 
     def onSaveDoc(self, event):
         with wx.FileDialog(
@@ -394,7 +394,7 @@ class appFrameInst(appFrame):
         self.editCtrl.ChangeValue(self.model.curr_node.content)
         self.descCtrl.ChangeValue(self.model.curr_node.desc)
 
-        self.Refresh()
+        self.treePanel.Refresh()
 
     def onOpenPrefs(self, event):
         self.settings.Show()
@@ -428,7 +428,7 @@ class appFrameInst(appFrame):
         )
         self.model.update_tree_attributes()
 
-        self.Refresh()
+        self.treePanel.Refresh()
         self.Update()
 
     def onContentEdit(self, event):
