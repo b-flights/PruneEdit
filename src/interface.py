@@ -258,7 +258,7 @@ class prefWindow(wx.Frame):
             id=wx.ID_ANY,
             title="Preferences",
             pos=wx.DefaultPosition,
-            size=wx.Size(375, 440),
+            size=wx.Size(375, 500),
             style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.TAB_TRAVERSAL
         )
 
@@ -290,6 +290,16 @@ class prefWindow(wx.Frame):
             self, wx.ID_ANY, 15, 3, 50, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
         )
         optSizer.Add(self.nodeRadiusSlider, 0, wx.ALL | wx.EXPAND, 5)
+
+        self.propRadiusLabel = wx.StaticText(
+            self, wx.ID_ANY, "Proportional Radius", wx.DefaultPosition, wx.DefaultSize, 0
+        )
+        optSizer.Add(self.propRadiusLabel, 0, wx.ALL, 5)
+
+        self.propRadiusSlider = wx.Slider(
+            self, wx.ID_ANY, 0, 0, 100, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
+        )
+        optSizer.Add(self.propRadiusSlider, 0, wx.ALL | wx.EXPAND, 5)
 
         self.fontSizeLabel = wx.StaticText(
             self, wx.ID_ANY, "Font Size", wx.DefaultPosition, wx.DefaultSize, 0
@@ -360,6 +370,7 @@ class prefWindow(wx.Frame):
 
         self.nodeThicknessSlider.Bind(wx.EVT_SCROLL, self.onThicknessChange)
         self.nodeRadiusSlider.Bind(wx.EVT_SCROLL, self.onRadiusChange)
+        self.propRadiusSlider.Bind(wx.EVT_SCROLL, self.onPropRadChange)
         self.updateCheckBox.Bind(wx.EVT_CHECKBOX, self.onAutoUpdateCheck)
         self.savePrefButton.Bind(wx.EVT_BUTTON, self.onSavePref)
         self.updateChoiceBox.Bind(wx.EVT_CHOICE, self.onUpdateChoice)
@@ -369,6 +380,8 @@ class prefWindow(wx.Frame):
     def onThicknessChange(self, event): event.Skip()
 
     def onRadiusChange(self, event): event.Skip()
+
+    def onPropRadChange(self, event): event.Skip()
 
     def onAutoUpdateCheck(self, event): event.Skip()
 

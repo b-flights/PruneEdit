@@ -11,6 +11,7 @@ class appModel():
     # Preferences
     node_radius: int
     node_thickness: int
+    prop_radius: float
     auto_update: bool
     update_behaviour: int
 
@@ -24,6 +25,7 @@ class appModel():
     def __init__(self):
         self.node_radius = 15
         self.node_thickness = 4
+        self.prop_radius = 0.0
         self.auto_update = False
         self.update_behaviour = 0
         self.root = doc_node("", "", None)
@@ -63,11 +65,15 @@ class prefWindowInst(prefWindow):
 
     def onThicknessChange(self, event):
         self.parent.model.node_thickness = self.nodeThicknessSlider.GetValue()
-        self.parent.Refresh()
+        self.parent.treePanel.Refresh()
 
     def onRadiusChange(self, event):
         self.parent.model.node_radius = self.nodeRadiusSlider.GetValue()
-        self.parent.Refresh()
+        self.parent.treePanel.Refresh()
+
+    def onPropRadChange(self, event):
+        self.parent.model.prop_radius = self.propRadiusSlider.GetValue() / 100
+        self.parent.treePanel.Refresh()
 
     def onAutoUpdateCheck(self, event):
         self.parent.model.auto_update = self.updateCheckBox.GetValue()
@@ -91,6 +97,7 @@ class prefWindowInst(prefWindow):
         app_settings = json.dumps({
             "node_thickness": self.parent.model.node_thickness,
             "node_radius": self.parent.model.node_radius,
+            "prop_radius": self.parent.model.prop_radius,
             "font_size": self.fontSizeSelect.GetValue(),
             "auto_update": self.parent.model.auto_update,
             "update_behaviour": self.parent.model.update_behaviour
@@ -139,6 +146,10 @@ class appFrameInst(appFrame):
                 if "node_radius" in app_settings.keys():
                     self.model.node_radius = app_settings["node_radius"]
                     self.settings.nodeRadiusSlider.SetValue(self.model.node_radius)
+
+                if "prop_radius" in app_settings.keys():
+                    self.model.prop_radius = app_settings["prop_radius"]
+                    self.settings.propRadiusSlider.SetValue(int(self.model.prop_radius * 100))
 
                 if "font_size" in app_settings.keys():
                     self.editCtrl.SetFont(
@@ -257,7 +268,9 @@ class appFrameInst(appFrame):
             y_pos = ((node.depth + 1) / (self.model.max_depth + 2) * self.model.panelSize[1])
             if (
                 (x_pos - event.GetX()) ** 2 + (y_pos - event.GetY()) ** 2
-            ) < self.model.node_radius ** 2:
+            ) < (self.model.node_radius * (
+                node.proportion ** self.model.prop_radius
+            )) ** 2:
                 new_node = node
 
         if self.model.hover_node != new_node:
@@ -480,7 +493,7 @@ class appFrameInst(appFrame):
                     * self.model.panelSize[0]),
                 int((curr_queue_node.depth + 1) / (self.model.max_depth + 2)
                     * self.model.panelSize[1]),
-                self.model.node_radius
+                int(self.model.node_radius * (curr_queue_node.proportion ** self.model.prop_radius))
             )
 
         if self.model.hover_node is not None:
