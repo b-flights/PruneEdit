@@ -422,12 +422,12 @@ class appFrameInst(appFrame):
 
     def onOpenPrefs(self, event):
         self.settings.Show()
-        self.settings.SetClientSize(self.settings.GetSize())
+        self.settings.SetClientSize(wx.Size(375, 520))
 
     def onOpenHelp(self, event):
         self.help = helpWindow(parent=self)
         self.help.Show()
-        self.help.SetClientSize(self.help.GetSize())
+        self.help.SetClientSize(wx.Size(500, 500))
 
     def handleUpdate(self):
         if self.model.auto_update:
