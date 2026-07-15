@@ -17,6 +17,8 @@ class appFrame(wx.Frame):
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
         self.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
 
+        self.panel = wx.Panel(self)
+
         mainSizer = wx.BoxSizer(wx.HORIZONTAL)
         editSizer = wx.BoxSizer(wx.VERTICAL)
         descSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -24,7 +26,7 @@ class appFrame(wx.Frame):
         optSizer = wx.BoxSizer(wx.HORIZONTAL)
 
         self.editCtrl = wx.TextCtrl(
-            self,
+            self.panel,
             wx.ID_ANY,
             wx.EmptyString,
             wx.DefaultPosition,
@@ -37,20 +39,20 @@ class appFrame(wx.Frame):
 
         labelSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
         self.descLabel = wx.StaticText(
-            self, wx.ID_ANY, "Description", wx.DefaultPosition, wx.DefaultSize, 0
+            self.panel, wx.ID_ANY, "Description", wx.DefaultPosition, wx.DefaultSize, 0
         )
         labelSizer.Add(self.descLabel, 0, wx.ALL, 5)
         labelSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
 
         descSizer.Add(labelSizer, 0, wx.EXPAND, 5)
         self.descCtrl = wx.TextCtrl(
-            self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0
+            self.panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0
         )
         descSizer.Add(self.descCtrl, 1, wx.ALL, 5)
         editSizer.Add(descSizer, 0, wx.EXPAND, 5)
 
         self.toggleButton = wx.Button(
-            self, wx.ID_ANY, "Show\nTree", wx.DefaultPosition, wx.Size(45, -1), 0
+            self.panel, wx.ID_ANY, "Show\nTree", wx.DefaultPosition, wx.Size(45, -1), 0
         )
         self.toggleButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -60,7 +62,7 @@ class appFrame(wx.Frame):
         optSizerGrid = wx.GridSizer(2, 3, 0, 0)
 
         self.updateButton = wx.Button(
-            self, wx.ID_ANY, "Update", wx.DefaultPosition, wx.Size(-1, 30), 0
+            self.panel, wx.ID_ANY, "Update", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
         self.updateButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -68,7 +70,7 @@ class appFrame(wx.Frame):
         optSizerGrid.Add(self.updateButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.newRevButton = wx.Button(
-            self, wx.ID_ANY, "Save as New", wx.DefaultPosition, wx.Size(-1, 30), 0
+            self.panel, wx.ID_ANY, "Save as New", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
         self.newRevButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -76,7 +78,7 @@ class appFrame(wx.Frame):
         optSizerGrid.Add(self.newRevButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.newBlankButton = wx.Button(
-            self, wx.ID_ANY, "New Blank Version", wx.DefaultPosition, wx.Size(-1, 30), 0
+            self.panel, wx.ID_ANY, "New Blank Version", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
         self.newBlankButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -84,7 +86,7 @@ class appFrame(wx.Frame):
         optSizerGrid.Add(self.newBlankButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.setMainButton = wx.Button(
-            self, wx.ID_ANY, "Set as Main", wx.DefaultPosition, wx.Size(-1, 30), 0
+            self.panel, wx.ID_ANY, "Set as Main", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
         self.setMainButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -92,7 +94,7 @@ class appFrame(wx.Frame):
         optSizerGrid.Add(self.setMainButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.deleteButton = wx.Button(
-            self, wx.ID_ANY, "Delete", wx.DefaultPosition, wx.Size(-1, 30), 0
+            self.panel, wx.ID_ANY, "Delete", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
         self.deleteButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -100,7 +102,7 @@ class appFrame(wx.Frame):
         optSizerGrid.Add(self.deleteButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.delChangeButton = wx.Button(
-            self, wx.ID_ANY, "Delete Changes", wx.DefaultPosition, wx.Size(-1, 30), 0
+            self.panel, wx.ID_ANY, "Delete Changes", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
         self.delChangeButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -111,18 +113,18 @@ class appFrame(wx.Frame):
         editSizer.Add(optSizer, 0, wx.EXPAND, 5)
 
         self.divLine = wx.StaticLine(
-            self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_VERTICAL
+            self.panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_VERTICAL
         )
         mainSizer.Add(self.divLine, 0, wx.EXPAND | wx.ALL, 5)
 
         self.treePanel = wx.Panel(
-            self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL
+            self.panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL
         )
         self.treePanel.Bind(wx.EVT_PAINT, self.onPaint)
         self.treePanel.Hide()
         mainSizer.Add(self.treePanel, 1, wx.EXPAND | wx.ALL, 5)
 
-        self.SetSizer(mainSizer)
+        self.panel.SetSizer(mainSizer)
         self.Layout()
         self.menuBar = wx.MenuBar(0)
 
@@ -265,6 +267,8 @@ class prefWindow(wx.Frame):
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
         self.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
 
+        panel = wx.Panel(self)
+
         mainSizer = wx.BoxSizer(wx.HORIZONTAL)
         mainSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
 
@@ -272,63 +276,63 @@ class prefWindow(wx.Frame):
         optSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
 
         self.nodeThicknessLabel = wx.StaticText(
-            self, wx.ID_ANY, "Node Thickness", wx.DefaultPosition, wx.DefaultSize, 0
+            panel, wx.ID_ANY, "Node Thickness", wx.DefaultPosition, wx.DefaultSize, 0
         )
         optSizer.Add(self.nodeThicknessLabel, 0, wx.ALL, 5)
 
         self.nodeThicknessSlider = wx.Slider(
-            self, wx.ID_ANY, 4, 1, 20, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
+            panel, wx.ID_ANY, 4, 1, 20, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
         )
         optSizer.Add(self.nodeThicknessSlider, 0, wx.ALL | wx.EXPAND, 5)
 
         self.nodeRadiusLabel = wx.StaticText(
-            self, wx.ID_ANY, "Node Radius", wx.DefaultPosition, wx.DefaultSize, 0
+            panel, wx.ID_ANY, "Node Radius", wx.DefaultPosition, wx.DefaultSize, 0
         )
         optSizer.Add(self.nodeRadiusLabel, 0, wx.ALL, 5)
 
         self.nodeRadiusSlider = wx.Slider(
-            self, wx.ID_ANY, 15, 3, 50, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
+            panel, wx.ID_ANY, 15, 3, 50, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
         )
         optSizer.Add(self.nodeRadiusSlider, 0, wx.ALL | wx.EXPAND, 5)
 
         self.propRadiusLabel = wx.StaticText(
-            self, wx.ID_ANY, "Proportional Radius", wx.DefaultPosition, wx.DefaultSize, 0
+            panel, wx.ID_ANY, "Proportional Radius", wx.DefaultPosition, wx.DefaultSize, 0
         )
         optSizer.Add(self.propRadiusLabel, 0, wx.ALL, 5)
 
         self.propRadiusSlider = wx.Slider(
-            self, wx.ID_ANY, 0, 0, 100, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
+            panel, wx.ID_ANY, 0, 0, 100, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
         )
         optSizer.Add(self.propRadiusSlider, 0, wx.ALL | wx.EXPAND, 5)
 
         self.sysColourCheckBox = wx.CheckBox(
-            self, wx.ID_ANY, "Use System Colours", wx.DefaultPosition, wx.DefaultSize, 0
+            panel, wx.ID_ANY, "Use System Colours", wx.DefaultPosition, wx.DefaultSize, 0
         )
         self.sysColourCheckBox.SetValue(True)
         optSizer.Add(self.sysColourCheckBox, 0, wx.ALL, 5)
 
         self.fontSizeLabel = wx.StaticText(
-            self, wx.ID_ANY, "Font Size", wx.DefaultPosition, wx.DefaultSize, 0
+            panel, wx.ID_ANY, "Font Size", wx.DefaultPosition, wx.DefaultSize, 0
         )
         optSizer.Add(self.fontSizeLabel, 0, wx.ALL, 5)
 
         self.fontSizeSelect = wx.SpinCtrl(
-            self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 5, 48, 11
+            panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 5, 48, 11
         )
         optSizer.Add(self.fontSizeSelect, 0, wx.ALL, 5)
 
         self.divLine1 = wx.StaticLine(
-            self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL
+            panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL
         )
         optSizer.Add(self.divLine1, 0, wx.EXPAND | wx.ALL, 5)
 
         self.updateCheckBox = wx.CheckBox(
-            self, wx.ID_ANY, "Auto Update", wx.DefaultPosition, wx.DefaultSize, 0
+            panel, wx.ID_ANY, "Auto Update", wx.DefaultPosition, wx.DefaultSize, 0
         )
         optSizer.Add(self.updateCheckBox, 0, wx.ALL, 5)
 
         self.updateChoiceLabel = wx.StaticText(
-            self, wx.ID_ANY,
+            panel, wx.ID_ANY,
             "Auto Update behaviour for internal versions",
             wx.DefaultPosition, wx.DefaultSize,
             0
@@ -336,7 +340,7 @@ class prefWindow(wx.Frame):
         optSizer.Add(self.updateChoiceLabel, 0, wx.ALL, 5)
 
         self.updateChoiceBox = wx.Choice(
-            self,
+            panel,
             wx.ID_ANY,
             wx.DefaultPosition,
             wx.DefaultSize,
@@ -351,12 +355,12 @@ class prefWindow(wx.Frame):
         optSizer.Add(self.updateChoiceBox, 0, wx.ALL, 5)
 
         self.divLine2 = wx.StaticLine(
-            self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL
+            panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL
         )
         optSizer.Add(self.divLine2, 0, wx.EXPAND | wx.ALL, 5)
 
         self.savePrefButton = wx.Button(
-            self, wx.ID_ANY, "Save Preferences", wx.DefaultPosition, wx.Size(130, 40), 0
+            panel, wx.ID_ANY, "Save Preferences", wx.DefaultPosition, wx.Size(130, 40), 0
         )
         self.savePrefButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -369,7 +373,7 @@ class prefWindow(wx.Frame):
 
         mainSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
 
-        self.SetSizer(mainSizer)
+        panel.SetSizer(mainSizer)
         self.Layout()
 
         self.Centre(wx.BOTH)

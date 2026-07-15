@@ -267,7 +267,7 @@ class appFrameInst(appFrame):
         else:
             self.treePanel.Show()
             self.toggleButton.SetLabel("Hide\nTree")
-        self.Layout()
+        self.panel.Layout()
 
     def onResizePanel(self, event):
         self.treePanel.Refresh()
