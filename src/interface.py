@@ -10,10 +10,11 @@ class appFrame(wx.Frame):
             id=wx.ID_ANY,
             title="PruneEdit",
             pos=wx.DefaultPosition,
-            size=wx.Size(960, 540),
+            size=wx.Size(1090, 625),
             style=wx.DEFAULT_FRAME_STYLE
         )
 
+        self.SetClientSize(self.GetSize())
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
         self.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
 
@@ -57,6 +58,7 @@ class appFrame(wx.Frame):
         self.toggleButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
         )
+        self.toggleButton.SetBackgroundColour(wx.NullColour)
         optSizer.Add(self.toggleButton, 0, wx.ALL | wx.EXPAND, 3)
 
         optSizerGrid = wx.GridSizer(2, 3, 0, 0)
@@ -67,6 +69,7 @@ class appFrame(wx.Frame):
         self.updateButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
         )
+        self.updateButton.SetBackgroundColour(wx.NullColour)
         optSizerGrid.Add(self.updateButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.newRevButton = wx.Button(
@@ -75,6 +78,7 @@ class appFrame(wx.Frame):
         self.newRevButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
         )
+        self.newRevButton.SetBackgroundColour(wx.NullColour)
         optSizerGrid.Add(self.newRevButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.newBlankButton = wx.Button(
@@ -83,6 +87,7 @@ class appFrame(wx.Frame):
         self.newBlankButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
         )
+        self.newBlankButton.SetBackgroundColour(wx.NullColour)
         optSizerGrid.Add(self.newBlankButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.setMainButton = wx.Button(
@@ -91,6 +96,7 @@ class appFrame(wx.Frame):
         self.setMainButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
         )
+        self.setMainButton.SetBackgroundColour(wx.NullColour)
         optSizerGrid.Add(self.setMainButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.deleteButton = wx.Button(
@@ -99,6 +105,7 @@ class appFrame(wx.Frame):
         self.deleteButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
         )
+        self.deleteButton.SetBackgroundColour(wx.NullColour)
         optSizerGrid.Add(self.deleteButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.delChangeButton = wx.Button(
@@ -107,6 +114,7 @@ class appFrame(wx.Frame):
         self.delChangeButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
         )
+        self.delChangeButton.SetBackgroundColour(wx.NullColour)
         optSizerGrid.Add(self.delChangeButton, 1, wx.ALL | wx.EXPAND, 3)
 
         optSizer.Add(optSizerGrid, 1, wx.EXPAND, 5)
@@ -365,6 +373,7 @@ class prefWindow(wx.Frame):
         self.savePrefButton.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
         )
+        self.savePrefButton.SetBackgroundColour(wx.NullColour)
         optSizer.Add(self.savePrefButton, 0, wx.ALL, 5)
 
         optSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
