@@ -12,6 +12,7 @@ class appModel():
     node_radius: int
     node_thickness: int
     prop_radius: float
+    sys_colours: bool
     auto_update: bool
     update_behaviour: int
 
@@ -26,6 +27,7 @@ class appModel():
         self.node_radius = 15
         self.node_thickness = 4
         self.prop_radius = 0.0
+        self.sys_colours = True
         self.auto_update = False
         self.update_behaviour = 0
         self.root = doc_node("", "", None)
@@ -81,6 +83,10 @@ class prefWindowInst(prefWindow):
     def onUpdateChoice(self, event):
         self.parent.model.update_behaviour = self.updateChoiceBox.GetSelection()
 
+    def onSysColourCheck(self, event):
+        self.parent.model.sys_colours = self.sysColourCheckBox.GetValue()
+        self.parent.treePanel.Refresh()
+
     def onFontSizeChange(self, event):
         self.parent.editCtrl.SetFont(
             wx.Font(
@@ -98,6 +104,7 @@ class prefWindowInst(prefWindow):
             "node_thickness": self.parent.model.node_thickness,
             "node_radius": self.parent.model.node_radius,
             "prop_radius": self.parent.model.prop_radius,
+            "sys_colours": self.parent.model.sys_colours,
             "font_size": self.fontSizeSelect.GetValue(),
             "auto_update": self.parent.model.auto_update,
             "update_behaviour": self.parent.model.update_behaviour
@@ -150,6 +157,10 @@ class appFrameInst(appFrame):
                 if "prop_radius" in app_settings.keys():
                     self.model.prop_radius = app_settings["prop_radius"]
                     self.settings.propRadiusSlider.SetValue(int(self.model.prop_radius * 100))
+
+                if "sys_colours" in app_settings.keys():
+                    self.model.sys_colours = app_settings["sys_colours"]
+                    self.settings.sysColourCheckBox.SetValue(self.model.sys_colours)
 
                 if "font_size" in app_settings.keys():
                     self.editCtrl.SetFont(
@@ -451,10 +462,18 @@ class appFrameInst(appFrame):
         self.handleUpdate()
 
     def onPaint(self, event):
+        fg_colour = wx.BLACK
+        bg_colour = wx.WHITE
+
+        if self.model.sys_colours == True:
+            fg_colour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNTEXT)
+            bg_colour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW)
+
         dc = wx.PaintDC(self.treePanel)
-        dc.SetBackground(wx.Brush(wx.Colour(255, 255, 255)))
+        dc.SetBackground(wx.Brush(bg_colour))
         dc.Clear()
-        dc.SetPen(wx.Pen(wx.BLACK, 5))
+        dc.SetPen(wx.Pen(fg_colour, self.model.node_thickness))
+        dc.SetBrush(wx.Brush(bg_colour))
         self.model.panelSize = dc.GetSize()
         self.model.max_depth = self.model.root.get_max_depth()
         node_queue = [self.model.root]
@@ -467,7 +486,7 @@ class appFrameInst(appFrame):
             # Draw lines between curr_queue_node and each child
             for node in curr_queue_node.children:
                 node_queue.append(node)
-                dc.SetPen(wx.Pen(wx.BLACK, int(self.model.node_thickness * 0.75)))
+                dc.SetPen(wx.Pen(fg_colour, int(self.model.node_thickness * 0.75)))
                 dc.DrawLine(
                     int((curr_queue_node.start + curr_queue_node.proportion / 2)
                         * self.model.panelSize[0]),
@@ -477,7 +496,7 @@ class appFrameInst(appFrame):
                     int((node.start + node.proportion / 2) * self.model.panelSize[0]),
                     int((node.depth + 1) / (self.model.max_depth + 2) * self.model.panelSize[1]),
                 )
-            dc.SetPen(wx.Pen(wx.BLACK, self.model.node_thickness))
+            dc.SetPen(wx.Pen(fg_colour, self.model.node_thickness))
 
             # Colour selected node
             if curr_queue_node == self.model.curr_node:

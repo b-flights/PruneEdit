@@ -258,7 +258,7 @@ class prefWindow(wx.Frame):
             id=wx.ID_ANY,
             title="Preferences",
             pos=wx.DefaultPosition,
-            size=wx.Size(375, 500),
+            size=wx.Size(375, 520),
             style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.TAB_TRAVERSAL
         )
 
@@ -300,6 +300,12 @@ class prefWindow(wx.Frame):
             self, wx.ID_ANY, 0, 0, 100, wx.DefaultPosition, wx.DefaultSize, wx.SL_HORIZONTAL
         )
         optSizer.Add(self.propRadiusSlider, 0, wx.ALL | wx.EXPAND, 5)
+
+        self.sysColourCheckBox = wx.CheckBox(
+            self, wx.ID_ANY, "Use System Colours", wx.DefaultPosition, wx.DefaultSize, 0
+        )
+        self.sysColourCheckBox.SetValue(True)
+        optSizer.Add(self.sysColourCheckBox, 0, wx.ALL, 5)
 
         self.fontSizeLabel = wx.StaticText(
             self, wx.ID_ANY, "Font Size", wx.DefaultPosition, wx.DefaultSize, 0
@@ -374,6 +380,7 @@ class prefWindow(wx.Frame):
         self.updateCheckBox.Bind(wx.EVT_CHECKBOX, self.onAutoUpdateCheck)
         self.savePrefButton.Bind(wx.EVT_BUTTON, self.onSavePref)
         self.updateChoiceBox.Bind(wx.EVT_CHOICE, self.onUpdateChoice)
+        self.sysColourCheckBox.Bind(wx.EVT_CHECKBOX, self.onSysColourCheck)
         self.fontSizeSelect.Bind(wx.EVT_SPINCTRL, self.onFontSizeChange)
         self.Bind(wx.EVT_CLOSE, self.onWindowClose)
 
@@ -388,6 +395,8 @@ class prefWindow(wx.Frame):
     def onSavePref(self, event): event.Skip()
 
     def onUpdateChoice(self, event): event.Skip()
+
+    def onSysColourCheck(self, event): event.Skip()
 
     def onFontSizeChange(self, event): event.Skip()
 
