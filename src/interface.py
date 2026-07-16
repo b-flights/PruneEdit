@@ -255,7 +255,12 @@ class prefWindow(wx.Frame):
             id=wx.ID_ANY,
             title="Preferences",
             pos=wx.DefaultPosition,
-            style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.TAB_TRAVERSAL
+            style=wx.SYSTEM_MENU
+            | wx.CAPTION
+            | wx.CLOSE_BOX
+            | wx.CLIP_CHILDREN
+            | wx.TAB_TRAVERSAL
+            | wx.STAY_ON_TOP
         )
 
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
@@ -415,7 +420,7 @@ class helpWindow(wx.Frame):
             id=wx.ID_ANY,
             title="Help",
             pos=wx.DefaultPosition,
-            style=wx.DEFAULT_FRAME_STYLE
+            style=wx.DEFAULT_FRAME_STYLE | wx.STAY_ON_TOP
         )
 
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
