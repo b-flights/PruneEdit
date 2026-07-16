@@ -2,6 +2,14 @@ import wx  # type: ignore
 import wx.html  # type: ignore
 
 
+# Force background colour of button widget to clear on wxMSW
+def forceClearBackground(button):
+    button.SetBackgroundColour(
+        wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
+    )
+    button.SetBackgroundColour(wx.NullColour)
+
+
 class appFrame(wx.Frame):
     def __init__(self, parent):
         wx.Frame.__init__(
@@ -55,10 +63,7 @@ class appFrame(wx.Frame):
         self.toggleButton = wx.Button(
             self.panel, wx.ID_ANY, "Show\nTree", wx.DefaultPosition, wx.Size(45, -1), 0
         )
-        self.toggleButton.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
-        )
-        self.toggleButton.SetBackgroundColour(wx.NullColour)
+        forceClearBackground(self.toggleButton)
         optSizer.Add(self.toggleButton, 0, wx.ALL | wx.EXPAND, 3)
 
         optSizerGrid = wx.GridSizer(2, 3, 0, 0)
@@ -66,55 +71,37 @@ class appFrame(wx.Frame):
         self.updateButton = wx.Button(
             self.panel, wx.ID_ANY, "Update", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        self.updateButton.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
-        )
-        self.updateButton.SetBackgroundColour(wx.NullColour)
+        forceClearBackground(self.updateButton)
         optSizerGrid.Add(self.updateButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.newRevButton = wx.Button(
             self.panel, wx.ID_ANY, "Save as New", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        self.newRevButton.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
-        )
-        self.newRevButton.SetBackgroundColour(wx.NullColour)
+        forceClearBackground(self.newRevButton)
         optSizerGrid.Add(self.newRevButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.newBlankButton = wx.Button(
             self.panel, wx.ID_ANY, "New Blank Version", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        self.newBlankButton.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
-        )
-        self.newBlankButton.SetBackgroundColour(wx.NullColour)
+        forceClearBackground(self.newBlankButton)
         optSizerGrid.Add(self.newBlankButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.setMainButton = wx.Button(
             self.panel, wx.ID_ANY, "Set as Main", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        self.setMainButton.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
-        )
-        self.setMainButton.SetBackgroundColour(wx.NullColour)
+        forceClearBackground(self.setMainButton)
         optSizerGrid.Add(self.setMainButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.deleteButton = wx.Button(
             self.panel, wx.ID_ANY, "Delete", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        self.deleteButton.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
-        )
-        self.deleteButton.SetBackgroundColour(wx.NullColour)
+        forceClearBackground(self.deleteButton)
         optSizerGrid.Add(self.deleteButton, 1, wx.ALL | wx.EXPAND, 3)
 
         self.delChangeButton = wx.Button(
             self.panel, wx.ID_ANY, "Delete Changes", wx.DefaultPosition, wx.Size(-1, 30), 0
         )
-        self.delChangeButton.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
-        )
-        self.delChangeButton.SetBackgroundColour(wx.NullColour)
+        forceClearBackground(self.delChangeButton)
         optSizerGrid.Add(self.delChangeButton, 1, wx.ALL | wx.EXPAND, 3)
 
         optSizer.Add(optSizerGrid, 1, wx.EXPAND, 5)
@@ -324,7 +311,15 @@ class prefWindow(wx.Frame):
         optSizer.Add(self.fontSizeLabel, 0, wx.ALL, 5)
 
         self.fontSizeSelect = wx.SpinCtrl(
-            panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 5, 48, 11
+            panel,
+            wx.ID_ANY,
+            wx.EmptyString,
+            wx.DefaultPosition,
+            wx.DefaultSize,
+            wx.SP_ARROW_KEYS,
+            5,
+            48,
+            11
         )
         optSizer.Add(self.fontSizeSelect, 0, wx.ALL, 5)
 
@@ -369,10 +364,7 @@ class prefWindow(wx.Frame):
         self.savePrefButton = wx.Button(
             panel, wx.ID_ANY, "Save Preferences", wx.DefaultPosition, wx.Size(130, 40), 0
         )
-        self.savePrefButton.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
-        )
-        self.savePrefButton.SetBackgroundColour(wx.NullColour)
+        forceClearBackground(self.savePrefButton)
         optSizer.Add(self.savePrefButton, 0, wx.ALL, 5)
 
         optSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)

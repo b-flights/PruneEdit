@@ -467,7 +467,7 @@ class appFrameInst(appFrame):
         fg_colour = wx.BLACK
         bg_colour = wx.WHITE
 
-        if self.model.sys_colours == True:
+        if self.model.sys_colours:
             fg_colour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNTEXT)
             bg_colour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW)
 
