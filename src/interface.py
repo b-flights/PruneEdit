@@ -2,7 +2,7 @@ import wx  # type: ignore
 import wx.html  # type: ignore
 
 
-# Force background colour of button widget to clear on wxMSW
+# Force default background colour of button widget to clear on wxMSW
 def forceClearBackground(button):
     button.SetBackgroundColour(
         wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNHIGHLIGHT)
@@ -24,9 +24,9 @@ class appFrame(wx.Frame):
 
         self.SetClientSize(self.GetSize())
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
-        self.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
 
         self.panel = wx.Panel(self)
+        self.panel.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
 
         mainSizer = wx.BoxSizer(wx.HORIZONTAL)
         editSizer = wx.BoxSizer(wx.VERTICAL)
@@ -259,9 +259,9 @@ class prefWindow(wx.Frame):
         )
 
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
-        self.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
 
         panel = wx.Panel(self)
+        panel.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
 
         mainSizer = wx.BoxSizer(wx.HORIZONTAL)
         mainSizer.Add(wx.Size(0, 0), 1, wx.EXPAND, 5)
