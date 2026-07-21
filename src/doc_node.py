@@ -14,9 +14,6 @@ class doc_node:
     proportion: float
     start: float
 
-    x: float
-    y: float
-
     def __init__(
         self,
         init_content: str,
@@ -35,8 +32,6 @@ class doc_node:
         self.nodes_across = 1
         self.proportion = 1.0
         self.start = 0
-        self.x = 0.0
-        self.y = 0.0
 
     # Update content/description if provided
     def update_content(
