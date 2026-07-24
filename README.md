@@ -15,6 +15,6 @@ Requirements:
 `platformdirs` A cross platform interface for the system's user config directory<br>
 `mypy` (Optional, for type checking)<br>
 
-(Replace `python` with your platform's Python alias, e.g. `python3` on Linux)<br>
+(Replace `python` with your platform's Python alias, e.g. `python3` on Linux)<br><br>
 To run the program, run `python main.py` from the /src directory.<br>
 To run the unit tests, run `python tests.py` from the /test directory.

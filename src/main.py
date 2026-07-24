@@ -146,23 +146,23 @@ class appFrameInst(appFrame):
             with open(config_path, "r") as settings_file:
                 app_settings = json.loads(settings_file.read())
 
-                if "node_thickness" in app_settings.keys():
+                if "node_thickness" in app_settings:
                     self.model.node_thickness = app_settings["node_thickness"]
                     self.settings.nodeThicknessSlider.SetValue(self.model.node_thickness)
 
-                if "node_radius" in app_settings.keys():
+                if "node_radius" in app_settings:
                     self.model.node_radius = app_settings["node_radius"]
                     self.settings.nodeRadiusSlider.SetValue(self.model.node_radius)
 
-                if "prop_radius" in app_settings.keys():
+                if "prop_radius" in app_settings:
                     self.model.prop_radius = app_settings["prop_radius"]
                     self.settings.propRadiusSlider.SetValue(int(self.model.prop_radius * 100))
 
-                if "sys_colours" in app_settings.keys():
+                if "sys_colours" in app_settings:
                     self.model.sys_colours = app_settings["sys_colours"]
                     self.settings.sysColourCheckBox.SetValue(self.model.sys_colours)
 
-                if "font_size" in app_settings.keys():
+                if "font_size" in app_settings:
                     self.editCtrl.SetFont(
                         wx.Font(
                             app_settings["font_size"],
@@ -175,11 +175,11 @@ class appFrameInst(appFrame):
                     )
                     self.settings.fontSizeSelect.SetValue(app_settings["font_size"])
 
-                if "auto_update" in app_settings.keys():
+                if "auto_update" in app_settings:
                     self.model.auto_update = app_settings["auto_update"]
                     self.settings.updateCheckBox.SetValue(self.model.auto_update)
 
-                if "update_behaviour" in app_settings.keys():
+                if "update_behaviour" in app_settings:
                     self.model.update_behaviour = app_settings["update_behaviour"]
                     self.settings.updateChoiceBox.SetSelection(self.model.update_behaviour)
 

@@ -1,6 +1,5 @@
 import sys
 import unittest
-import wx
 import json
 
 sys.path.append("../src")
